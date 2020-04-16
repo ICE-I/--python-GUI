@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .menu{
+            width:694px;
+            height:50px;
+            /* background-color:cyan; */
+            margin:50px auto;
+            font-size:0;
+        }
+
+        .menu a{
+            width:98px;
+            height:48px;
+            background-color:#fff;
+            display:inline-block;
+            border:1px solid gold;
+            font-size:16px;
+            margin-left:-1px;
+            text-align:center;
+            line-height:48px;
+            text-decoration:none;
+            color:pink;
+            font-family:'Microsoft Yahei'
+        }
+
+        .menu a:hover{
+            background-color:gold;
+            color:#fff;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <a href="#i1">数据库创建</a>
+        <a href="#i2">数据库修改</a>
+        <a href="#i3">数据库删除</a>
+        <a href="#i4">数据表创建</a>
+        <a href="#i5">数据表修改</a>
+        <a href="#i6">数据表删除</a>
+    </div>
+    
+    <div id="i1">
+        <br /><br /><br />
+        <h1>1.  使用T-SQL语句创建数据库 <br /></h1>
+        <h2>格式:</h2>
+        <div >
+        CREATE DATABASE 数据库名称<br />
+        [   [ON  [filespec]] <br />
+            [LOG ON [filespec]]<br />
+        ] <br />
+        <br />
+        其中，filespec定义为<br />
+        ( [ NAME = logical_file_name , ]<br />
+            FILENAME = 'os_file_name'<br />
+            [ , SIZE = size ]<br />
+            [ , MAXSIZE = { max_size | UNLIMITED } ]<br />
+            [ , FILEGROWTH = growth_increment ] )<br />
+        </div>
+        <h2>例：</h2>
+        <div>
+            创建一个名称为test1的数据库，并设定数据文件为“H:\SQL Server\测试数据1.MDF”，大小为10MB，最大为50MB，每次增长5MB。事务日志文件为“H:\SQL Server\测试数据1日志.MDF”，大小为10MB，最大为20MB，每次增长为5MB。<br />
+            CREATE DATABASE test1<br />
+            ON (<br />
+                NAME = 测试数据1, <br />
+                FILENAME = ‘H:\SQL Server\测试数据1.MDF’,<br />
+                SIZE = 10MB, <br />
+                MAXSIZE = 50MB, <br />
+                FILEGROWTH = 5MB<br />
+                    )<br />
+            LOG ON (<br />
+                NAME = 测试数据1日志,<br /> 
+                FILENAME = 'H:\SQL Server\测试数据1日志.LDF',<br />
+                SIZE = 10MB, <br />
+                MAXSIZE = 20MB, <br />
+                FILEGROWTH = 5MB<br />
+            )
+        </div>
+    </div>
+
+    <div id="i2">
+        <br /><br /><br />
+        <h1>2.  使用T-SQL语句修改数据库</h1>
+        <h2>格式</h2>
+        <div>
+            ALTER DATABASE 数据库名称<br />
+            { ADD FILE filespec <br />
+            | ADD LOG FILE filespec <br />
+            | REMOVE FILE logical_file_name <br />
+            | MODIFY FILE filespec <br />
+            | MODIFY NAME = new_dbname <br />
+            }<br />
+            其中，filespec定义为：<br />
+            ( [ NAME = logical_file_name , ]<br />
+                FILENAME = 'os_file_name'<br />
+                [ , SIZE = size ]<br />
+                [ , MAXSIZE = { max_size | UNLIMITED } ]<br />
+                [ , FILEGROWTH = growth_increment ] )<br />
+        </div>
+        <h2>例</h2>
+        <div>
+            为test1数据库新增一个逻辑名为“测试数据”的数据文件，其大小及其最大值分别为10MB和50MB。<br />
+            ALTER DATABASE test1<br />
+            ADD FILE(<br />
+                NAME = 测试数据<br />
+                FILENAME = ’E:\SQL SERVER\测试数据.MDF’<br />
+                SIZE = 10MB<br />
+                MAXSIZE = 50MB<br />
+                FILEGROWTH = 5MB<br />
+            )<br />
+        </div>
+    </div>
+
+    <div id="i3">
+        <h1>3.  使用和删除数据库</h1>
+        <h2>格式：</h2>
+        <div>
+            USE DATABASE 数据库名称<br />
+            DROP DATABASE 数据库名称
+        </div>
+        <h2>例</h2>
+        <div>
+            USE DATABASE test1<br />
+            DROP DATABASE test1
+        </div>
+    </div>
+
+    <div id="i4">
+        <h1>4.数据表的创建</h1>
+        <H2>格式</H2>
+        <div>
+            CREATE TABLE 表名<br />
+        　　( 列名l   数据类型<br />
+            [NULL | NOT NULL] [PRIMARY | UNIQUE]<br />
+            [FOREIGN KEY  [(列名)] REFERENCES 关联表名称[(关联列名)] ]<br />
+                ，[列名2   数据类型 …]<br />
+            ……<br />
+　　        )<br />
+            <h2>例</h2>
+            <div>
+                在test数据库中创建一个clients表。
+                其中，创建的表clients中包含3个列：cid、cname和address。数据类型分别为整型、字符型（长度为8）和字符型（长度为50）。<br />
+                USE test<br />
+                　　CREATE TABLE clients<br />
+                　　( cid int,<br />
+                    cname char(8),<br />
+                    address char(50)<br />
+                　　)<br />           
+            </div>
+        </div>
+    </div>
+
+    <div id="i5">
+        <h1>5.数据表的修改</h1>
+        <h2>格式</h2>
+        <div>
+            ALTER TABLE 表名<br />
+        　　ADD [列名 数据类型]<br />
+        　　       [PRIMARY KEY | CONSTRAIN]<br />
+        　　       [FOREIGN KEY (列名)<br />
+            　　 REFERENCES 关联表名(关联列名)]<br />
+        　　DROP [CONSTRAINT] 约束名称 | COLUMN 列名<br />
+                ALTER COLUMN  [列名 数据类型]<br />
+        <h2>例</h2>
+        <div>
+            给school数据库中的student1表增加一个民族列，其数据类型为char(10)<br />
+            USE school<br />
+            ALTER TABLE student1 ADD 民族 char(10)<br />
+        </div>
+        </div>
+    </div>
+
+    <div id="i6">
+        <h1>6.数据表的删除</h1>
+        <h2>格式</h2>
+        <div>
+            　DROP TABLE 表名<br />
+        </div>
+        <h2>例</h2>
+        <div>
+            删除school数据库中student1表<br />
+        　　USE school<br />
+        　　DROP TABLE student1<br />
+        </div>
+    </div>
+</body>
+</html>

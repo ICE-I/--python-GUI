@@ -11,3 +11,4 @@
 所以这个手册可以选择性的查看，源码我也传到仓库中了，供大家参考
 
 在这附一张效果图，供大家参考：
+![](https://github.com/ICE-I/--python-GUI/blob/master/%E7%AE%A1%E7%90%86.PNG)
